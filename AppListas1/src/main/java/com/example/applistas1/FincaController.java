@@ -42,7 +42,27 @@ public class FincaController {
             propietaryTextField.getText());
   }
   @FXML void searchOnButtonPressed(ActionEvent event) {
+    buscar(codTextField.getText());
+  }
 
+  private void buscar(String codigo) {
+    posicion = 0; sw = false;
+    for (int i = 0; i < fincas.size(); i++) {
+      if(codigo.equals(fincas.get(i).getCodigo())) {
+        posicion = i;
+        sw = true;
+        break;
+      }
+    }
+    if(!sw) {
+      showMessage(Alert.AlertType.ERROR, "No se encontraron registros");
+    } else {
+      nameTextField.setText(fincas.get(posicion).getNombre());
+      codTextField.setText(fincas.get(posicion).getCodigo());
+      phoneTextField.setText(fincas.get(posicion).getConctacto());
+      addressTextField.setText(fincas.get(posicion).getDireccion());
+      propietaryTextField.setText(fincas.get(posicion).getPropietario());
+    }
   }
 
   private void guardar(String cod, String name, String address,
@@ -52,7 +72,7 @@ public class FincaController {
       showMessage(Alert.AlertType.ERROR, "Debes ingresar todos los campos");
       return ;
     } else {
-      fincas.add(new Cls_fincas(name, cod, address, phone, propietary));
+      fincas.add(new Cls_fincas(cod, name, address, phone, propietary));
       showMessage(Alert.AlertType.INFORMATION, "Finca registrada con exito");
     }
   }
